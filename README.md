@@ -98,4 +98,4 @@ docker run --rm -it \
 
 After a couple of Claude Code CLI popups, you'll be ready to go!
 
-![Claude Code running in the container](.claude.png)
+![Claude Code running in the container](./claude.png)
