@@ -32,7 +32,8 @@ USER claude
 WORKDIR /workspace
 
 LABEL org.opencontainers.image.title="wolfi-claude-code" \
-      org.opencontainers.image.description="Isolated Claude Code CLI sandbox on Chainguard Wolfi"
+      org.opencontainers.image.description="Isolated Claude Code CLI sandbox on Chainguard Wolfi" \
+      org.opencontainers.image.source="https://github.com/Ty182/Containerizing-AI-Agents"
 
 # Default to launching the CLI when the container starts
 ENTRYPOINT ["claude"]
