@@ -1,9 +1,7 @@
 # Chainguard Wolfi base, pinned by digest for reproducibility
 FROM cgr.dev/chainguard/wolfi-base@sha256:918a593b8268c222afd4e2c4f06860ac984e60719b4697e4c71d796bc8fcd042
 
-# Install Node.js/npm (to run the CLI), git (repo operations), and bash — the CLI's
-# Bash tool hardcodes a check for a real bash binary and rejects BusyBox's /bin/sh
-# even when SHELL points to it (https://github.com/anthropics/claude-code/issues/7689)
+# Install Node.js/npm (to run the CLI), git (repo operations), and bash
 RUN apk add --no-cache nodejs npm git ca-certificates bash
 
 ### Claude Code Env Vars ### 
@@ -21,11 +19,9 @@ ENV CLAUDE_CONFIG_DIR=/home/claude/.claude
 # Set shell to bash
 ENV SHELL=/bin/bash
 
-# Install the latest Claude Code CLI globally. The postinstall step that downloads
-# the native claude.exe binary can fail silently, leaving a stub that errors at
-# runtime — re-run it explicitly and verify the binary works before the build succeeds.
-RUN npm install -g @anthropic-ai/claude-code@latest \
-    && node "$(npm root -g)/@anthropic-ai/claude-code/install.cjs" \
+# Install the latest Claude Code CLI globally. npm blocks its postinstall script
+# by default (allowScripts) so we'll need to allow it
+RUN npm install -g @anthropic-ai/claude-code@latest --allow-scripts=@anthropic-ai/claude-code \
     && claude --version \
     && npm cache clean --force
 
